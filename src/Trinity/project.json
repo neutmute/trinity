@@ -1,0 +1,12 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Trinity Class Library",
+  "authors": [ "neutmute" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "net451": { }
+  }
+}

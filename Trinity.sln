@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{771127BC-309A-4263-BE9D-1B3E64A42B27}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Trinity", "src\Trinity\Trinity.xproj", "{73676E83-A484-48D6-85F5-EBB7273D23DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73676E83-A484-48D6-85F5-EBB7273D23DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73676E83-A484-48D6-85F5-EBB7273D23DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73676E83-A484-48D6-85F5-EBB7273D23DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73676E83-A484-48D6-85F5-EBB7273D23DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
