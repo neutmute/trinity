@@ -6,6 +6,13 @@
   "projectUrl": "",
   "licenseUrl": "",
 
+  "dependencies": {
+    "Common.Logging": "3.1.0",
+    "Neo4jClient": "1.1.0.24",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
+    "Neo4jClient.Extension": "1.0.0-NM-00010"
+  },
+
   "frameworks": {
     "net451": { }
   }
