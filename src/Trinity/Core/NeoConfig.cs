@@ -7,6 +7,8 @@ namespace Trinity
 {
     public class NeoConfig
     {
+        internal const string AppSettingLabel = "AppSetting";
+
         #region Singleton
         // http://csharpindepth.com/articles/general/singleton.aspx   
         private static readonly NeoConfig instance = new NeoConfig();
@@ -50,7 +52,29 @@ namespace Trinity
             return graphConfig;
         }
 
+
+        public static void SetupFluentConfig()
+        {
+
+            // Tried with generics but it breaks
+            FluentConfig.Config()
+                .With<AppSettingString>(AppSettingLabel)
+                .Match(x => x.Key)
+                .Merge(x => x.Key)
+                .MergeOnMatchOrCreate(p => p.Value)
+                .MergeOnCreate(p => p.Key)
+                .Set();
+
+            FluentConfig.Config()
+                .With<AppSettingLong>(AppSettingLabel)
+                .Match(x => x.Key)
+                .Merge(x => x.Key)
+                .MergeOnMatchOrCreate(p => p.Value)
+                .MergeOnCreate(p => p.Key)
+                .Set();
+        }
+
         #endregion
-        
+
     }
 }
