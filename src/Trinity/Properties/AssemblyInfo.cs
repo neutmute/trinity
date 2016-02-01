@@ -10,3 +10,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Trinity")]
+[assembly: InternalsVisibleTo("Data")]
