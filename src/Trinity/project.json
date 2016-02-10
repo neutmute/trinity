@@ -10,7 +10,7 @@
     "Common.Logging": "3.2.0",
     "Neo4jClient": "1.1.0.24",
     "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
-    "Neo4jClient.Extension": "1.0.0-NM-00011"
+    "Neo4jClient.Extension": "1.0.0-NM-00013"
   },
 
   "frameworks": {
