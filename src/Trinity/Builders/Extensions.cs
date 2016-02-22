@@ -10,12 +10,12 @@ namespace Trinity
     {
         public static ICypherFluentQuery Match(this ICypherFluentQuery q, RelationshipLink relationship)
         {
-            q = q.Match(relationship.ToString());
+            q = q.Match(relationship.AsCypher);
             return q;
         }
         public static ICypherFluentQuery OptionalMatch(this ICypherFluentQuery q, RelationshipLink relationship)
         {
-            q = q.OptionalMatch(relationship.ToString());
+            q = q.OptionalMatch(relationship.AsCypher);
             return q;
         }
     }

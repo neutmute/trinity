@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Trinity
 {
-    public class Node
+    public interface ICypherable
+    {
+        string AsCypher { get; }
+    }
+
+    public class Node : ICypherable
     {
         protected virtual string DelimiterStart => "(";
         protected virtual string DelimiterEnd => ")";
@@ -14,6 +19,8 @@ namespace Trinity
         public string Identifier { get; set; }
 
         public string Label { get; set; }
+
+        public string AsCypher => ToString();
 
         public override string ToString()
         {
@@ -43,15 +50,17 @@ namespace Trinity
         From
     }
 
-    public class RelationshipLink
+    public class RelationshipLink : ICypherable
     {
         public EdgeArrowHead Direction { get; set; }
 
         public Node From { get; set; }
 
-        public Node To { get; set; }
+        public ICypherable To { get; set; }
 
         public Edge Relationship { get; set; }
+
+        public string AsCypher => ToString();
 
         public RelationshipLink()
         {
@@ -79,7 +88,7 @@ namespace Trinity
                 sb.Append(">");
             }
 
-            sb.Append(To);
+            sb.Append(To.AsCypher);
 
             return sb.ToString();
         }
@@ -101,8 +110,7 @@ namespace Trinity
         {
             var rlink = new RelationshipLink();
             rlink.From.Identifier = fromIdentifer;
-            rlink.To.Identifier = toIdentifier;
-            return Relationship(rlink);
+            rlink.To = new Node {Identifier = toIdentifier};return Relationship(rlink);
         }
 
         internal static CypherBuilderContext Relationship(RelationshipLink link)
@@ -111,8 +119,6 @@ namespace Trinity
             c.Value = link.ToString();
             return c;
         }
-
-        //private static string GetNodeCypher(Node)
     }
     
 }
