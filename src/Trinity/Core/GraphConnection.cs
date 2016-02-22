@@ -42,7 +42,7 @@ namespace Trinity
                 return;
             }
             Guard.Null(ConnectionConfig);
-            Guard.NullOrEmpty(ConnectionConfig.GraphDbConnectionString);
+            Guard.NullOrEmpty(ConnectionConfig.GraphDbConnectionString, "Connection string cannot be null or empty");
 
             var graphUri = new Uri(ConnectionConfig.GraphDbConnectionString);
 
