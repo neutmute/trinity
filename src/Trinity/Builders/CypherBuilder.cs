@@ -10,9 +10,7 @@ namespace Trinity
     {
         protected virtual string DelimiterStart => "(";
         protected virtual string DelimiterEnd => ")";
-
-
-
+        
         public string Identifier { get; set; }
 
         public string Label { get; set; }
@@ -107,7 +105,7 @@ namespace Trinity
             return Relationship(rlink);
         }
 
-        public static CypherBuilderContext Relationship(RelationshipLink link)
+        internal static CypherBuilderContext Relationship(RelationshipLink link)
         {
             var c = new CypherBuilderContext();
             c.Value = link.ToString();
@@ -116,4 +114,5 @@ namespace Trinity
 
         //private static string GetNodeCypher(Node)
     }
+    
 }
