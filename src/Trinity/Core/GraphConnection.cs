@@ -48,16 +48,16 @@ namespace Trinity
 
             if (ConnectionConfig.HttpClientTimeoutMilliseconds != 0)
             {
-                var httpClient = new HttpClient
-                {
-                    BaseAddress = graphUri,
-                    Timeout = TimeSpan.FromMilliseconds(ConnectionConfig.HttpClientTimeoutMilliseconds)
-                };
-                _graphClient = new GraphClient(graphUri, new HttpClientWrapper(httpClient));
+                throw new NotSupportedException("Why do you want to use this anyway? The constructor doesn't support this AND username and password. Maybe it could be set by property. I didn't bother checking.");
+            }
+
+            if (string.IsNullOrWhiteSpace(ConnectionConfig.Username))
+            {
+                _graphClient = new GraphClient(graphUri);
             }
             else
             {
-                _graphClient = new GraphClient(graphUri);
+                _graphClient = new GraphClient(graphUri, ConnectionConfig.Username, ConnectionConfig.Password);
             }
 
             _graphClient.JsonContractResolver = new CamelCasePropertyNamesContractResolver();
