@@ -44,7 +44,7 @@ namespace Trinity
 
             var logEnabledString = config["IsCypherLoggingEnabled"];
 
-            graphConfig.GraphDbConnectionString = config["ConnectionString"];
+            graphConfig.GraphUri = config["ConnectionString"];
             graphConfig.Username = config["Username"];
             graphConfig.Password = config["Password"];
 

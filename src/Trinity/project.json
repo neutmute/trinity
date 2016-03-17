@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "Repository wrapper for Neo4jClient",
   "authors": [ "neutmute" ],
@@ -8,7 +8,7 @@
 
   "dependencies": {
     "Common.Logging": "3.2.0",
-    "Neo4jClient": "1.1.0.24",
+    "Neo4jClient": "1.1.0.32",
     "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
     "Neo4jClient.Extension": "1.0.0-NM-00013"
   },

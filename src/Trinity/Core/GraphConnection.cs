@@ -3,6 +3,7 @@ using Neo4jClient;
 using Neo4jClient.Transactions;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Net;
 using System.Net.Http;
 
 namespace Trinity
@@ -42,31 +43,34 @@ namespace Trinity
                 return;
             }
             Guard.Null(ConnectionConfig);
-            Guard.NullOrEmpty(ConnectionConfig.GraphDbConnectionString, "Connection string cannot be null or empty");
+            Guard.NullOrEmpty(ConnectionConfig.GraphUri, "Connection string cannot be null or empty");
 
-            var graphUri = new Uri(ConnectionConfig.GraphDbConnectionString);
+            var graphUri = new Uri(ConnectionConfig.GraphUri);
 
-            if (ConnectionConfig.HttpClientTimeoutMilliseconds != 0)
+            var httpClientHandler = new HttpClientHandler();
+
+            if (ConnectionConfig.HasProxyUri())
             {
-                throw new NotSupportedException("Why do you want to use this anyway? The constructor doesn't support this AND username and password. Maybe it could be set by property. I didn't bother checking.");
-            }
+                httpClientHandler.Proxy = new WebProxy(ConnectionConfig.ProxyUri, true);
+                httpClientHandler.UseProxy = true;
+            };
 
-            if (string.IsNullOrWhiteSpace(ConnectionConfig.Username))
-            {
-                _graphClient = new GraphClient(graphUri);
-            }
-            else
-            {
-                _graphClient = new GraphClient(graphUri, ConnectionConfig.Username, ConnectionConfig.Password);
-            }
+            var httpClient = new HttpClient(httpClientHandler);
+            
+            var httpClientWrapper = new HttpClientWrapper(ConnectionConfig.Username, ConnectionConfig.Password, httpClient);
 
+            _graphClient = new GraphClient(graphUri, httpClientWrapper);
+            
             _graphClient.JsonContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         public void Connect()
         {
             EnsureGraphClientConstructed();
-            _log.InfoFormat("Connecting to '{0}'", ConnectionConfig.GraphDbConnectionString);
+            
+            _log.InfoFormat(
+                $"Connecting to Neo4j: {ConnectionConfig.ToStringX()}"
+                , ConnectionConfig.GraphUri);
 
             try
             {
@@ -78,7 +82,7 @@ namespace Trinity
                 throw;
             }
 
-            _log.TraceFormat("GraphClient connected to '{0}' ok", ConnectionConfig.GraphDbConnectionString);
+            _log.TraceFormat("GraphClient connected to '{0}' ok", ConnectionConfig.GraphUri);
         }
     }
 }
