@@ -49,7 +49,11 @@ namespace Trinity
 
             var httpClientHandler = new HttpClientHandler();
 
-            if (ConnectionConfig.HasProxyUri())
+            // We want the staging config for proxyUri  to be overridden when running in TeamCity
+            // Or you can do something like this C:\>set Data:Neo4j:ProxyUri=http://teamcity.internal.dev:3128
+            var disableProxyHint = "\"<";
+
+            if (ConnectionConfig.HasProxyUri() && !ConnectionConfig.ProxyUri.StartsWith(disableProxyHint))
             {
                 httpClientHandler.Proxy = new WebProxy(ConnectionConfig.ProxyUri, true);
                 httpClientHandler.UseProxy = true;
@@ -66,12 +70,10 @@ namespace Trinity
 
         public void Connect()
         {
+            _log.InfoFormat($"Connecting to Neo4j: {ConnectionConfig.ToStringX()}", ConnectionConfig.GraphUri);
+
             EnsureGraphClientConstructed();
             
-            _log.InfoFormat(
-                $"Connecting to Neo4j: {ConnectionConfig.ToStringX()}"
-                , ConnectionConfig.GraphUri);
-
             try
             {
                 _graphClient.Connect();
