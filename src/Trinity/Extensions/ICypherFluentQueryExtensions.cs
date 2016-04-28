@@ -23,6 +23,11 @@ namespace Trinity
             return q.With("DISTINCT " + ToCsv(identifiers));
         }
 
+        public static ICypherFluentQuery WithDistinct(this ICypherFluentQuery q, string identifier)
+        {
+            return q.With("DISTINCT " + identifier);
+        }
+
         public static ICypherFluentQuery Delete(this ICypherFluentQuery q, params string[] identifiers)
         {
             return q.Delete(ToCsv(identifiers));
