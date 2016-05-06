@@ -13,7 +13,9 @@ namespace Trinity
 
         #region Properties
         protected IGraphClient GraphClient { get; private set; }
+
         protected ICypherFluentQuery CypherQuery => GraphClient.Cypher;
+        
         #endregion
 
         protected NeoRepository(IGraphConnection graphConnection)

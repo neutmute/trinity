@@ -4,6 +4,8 @@ namespace Trinity.IntegrityChecks
 {
     public interface IIntegrityCheckRepository
     {
-        RelationshipCheckResponse CheckRelationshipCount(IRelationshipCheckRequest request);
+        RelationshipCheckResponse Check(IRelationshipCheckRequest request);
+
+        RawCheckResponse Check(IRawCheckRequest request);
     }
 }

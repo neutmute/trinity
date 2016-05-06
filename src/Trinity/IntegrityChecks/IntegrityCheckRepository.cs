@@ -4,6 +4,7 @@ using Neo4jClient.Cypher;
 using Neo4jClient.Extension.Cypher;
 using Trinity;
 using System.Linq;
+using Neo4jClient;
 
 namespace Trinity.IntegrityChecks
 {
@@ -17,11 +18,32 @@ namespace Trinity.IntegrityChecks
         {
 
         }
+        
+        public RawCheckResponse Check(IRawCheckRequest request)
+        {
+            /*
+            Do i know what I'm doing? lets find out!
+            https://github.com/Readify/Neo4jClient/wiki/cypher#manual-queries-highly-discouraged
+            */
+            var rawClient = (IRawGraphClient) GraphClient;
+            var parameters = new Dictionary<string, object>();
+            var cypherQuery = new CypherQuery(request.Cypher, parameters, CypherResultMode.Set);
+
+            var violationIds = rawClient
+                                .ExecuteGetCypherResults<long>(cypherQuery)
+                                .ToList();
+
+            var response = new RawCheckResponse();
+            response.Request = request;
+            response.Violations.AddRange(violationIds.ConvertAll(l => new Violation(l)));
+
+            return response;
+        }
 
         /// <summary>
         /// For a given label and relationship, returns anything that doesn't conform to expected count
         /// </summary>
-        public RelationshipCheckResponse CheckRelationshipCount(IRelationshipCheckRequest request)
+        public RelationshipCheckResponse Check(IRelationshipCheckRequest request)
         {
             var q = CypherQuery
                 .Match($"(e:{request.FromLabel})-[rel:{request.RelationshipLabel}]->()")
@@ -37,9 +59,8 @@ namespace Trinity.IntegrityChecks
             }
 
             var responses = q.Return((nodeId, relationshipCount) =>
-            new ThresholdViolation{
+            new Violation{
                 NodeId = nodeId.As<long>()
-                ,Value = relationshipCount.As<long>()
             });
 
             var response = new RelationshipCheckResponse();
