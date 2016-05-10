@@ -46,7 +46,8 @@ namespace Trinity.IntegrityChecks
         public RelationshipCheckResponse Check(IRelationshipCheckRequest request)
         {
             var q = CypherQuery
-                .Match($"(e:{request.FromLabel})-[rel:{request.RelationshipLabel}]->()")
+                .Match($"(e:{request.FromLabel})")
+                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]->()")
                 .With("ID(e) as nodeId, count(rel) as relationshipCount");
 
             switch (request.ThresholdType)
@@ -54,6 +55,11 @@ namespace Trinity.IntegrityChecks
                 case RelationshipThresholdType.ReturnIfGreaterThan:
                     q = q.Where($"relationshipCount > {request.Threshold}");
                     break;
+
+                case RelationshipThresholdType.ReturnIfNotExact:
+                    q = q.Where($"relationshipCount <> {request.Threshold}");
+                    break;
+
                 default:
                     throw new Exception("<INSERT PR HERE>");
             }
