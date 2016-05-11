@@ -47,7 +47,7 @@ namespace Trinity.IntegrityChecks
         {
             var q = CypherQuery
                 .Match($"(e:{request.FromLabel})")
-                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]->()")
+                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]-()")
                 .With("ID(e) as nodeId, count(rel) as relationshipCount");
 
             switch (request.ThresholdType)
