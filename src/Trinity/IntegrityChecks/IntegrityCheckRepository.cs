@@ -5,6 +5,7 @@ using Neo4jClient.Extension.Cypher;
 using Trinity;
 using System.Linq;
 using Neo4jClient;
+using Trinity.IntegrityChecks.Requests;
 
 namespace Trinity.IntegrityChecks
 {
@@ -43,12 +44,30 @@ namespace Trinity.IntegrityChecks
         /// <summary>
         /// For a given label and relationship, returns anything that doesn't conform to expected count
         /// </summary>
+        public RelationshipCheckResponse Check(IInboundRelationshipCheckRequest request)
+        {
+            var q = CypherQuery
+                .Match($"(e:{request.ToLabel})")
+                .OptionalMatch($"(e)<-[rel:{request.RelationshipLabel}]-()");
+
+            return Check(q, request);
+        }
+
+        /// <summary>
+        /// For a given label and relationship, returns anything that doesn't conform to expected count
+        /// </summary>
         public RelationshipCheckResponse Check(IRelationshipCheckRequest request)
         {
             var q = CypherQuery
                 .Match($"(e:{request.FromLabel})")
-                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]-()")
-                .With("ID(e) as nodeId, count(rel) as relationshipCount");
+                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]-()");
+
+            return Check(q, request);
+        }
+
+        private RelationshipCheckResponse Check(ICypherFluentQuery q, IBaseRelationshipCheckRequest request)
+        {
+            q = q.With("ID(e) as nodeId, count(rel) as relationshipCount");
 
             switch (request.ThresholdType)
             {
@@ -65,7 +84,8 @@ namespace Trinity.IntegrityChecks
             }
 
             var responses = q.Return((nodeId, relationshipCount) =>
-            new Violation{
+            new Violation
+            {
                 NodeId = nodeId.As<long>()
             });
 
