@@ -8,7 +8,6 @@ namespace Trinity
     public class NeoConfig
     {
         internal const string AppSettingLabel = "AppSetting";
-        private bool _hasInitConfig;
 
         #region Singleton
         // http://csharpindepth.com/articles/general/singleton.aspx   
@@ -55,15 +54,6 @@ namespace Trinity
                 graphConfig.IsCypherLoggingEnabled = Boolean.Parse(logEnabledString);
             }
             return graphConfig;
-        }
-
-        internal void EnsureConfigured()
-        {
-            if (!_hasInitConfig)
-            {
-                _hasInitConfig = true;
-                SetupFluentConfig();
-            }
         }
 
 

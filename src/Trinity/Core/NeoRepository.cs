@@ -22,7 +22,6 @@ namespace Trinity
         {
             Guard.Null(graphConnection);
             GraphClient = graphConnection.GraphClient;
-            NeoConfig.Instance.EnsureConfigured();
         }
     }
 }
