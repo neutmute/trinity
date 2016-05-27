@@ -20,4 +20,3 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: InternalsVisibleTo("Data")]
-
