@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Trinity.IntegrityChecks.Requests;
 
 namespace Trinity.IntegrityChecks
 {
@@ -7,5 +8,7 @@ namespace Trinity.IntegrityChecks
         RelationshipCheckResponse Check(IRelationshipCheckRequest request);
 
         RawCheckResponse Check(IRawCheckRequest request);
+
+        RelationshipCheckResponse Check(IInboundRelationshipCheckRequest request);
     }
 }

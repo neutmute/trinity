@@ -1,13 +1,9 @@
-﻿namespace Trinity.IntegrityChecks
+﻿using Trinity.IntegrityChecks.Requests;
+
+namespace Trinity.IntegrityChecks
 {
-    public interface IRelationshipCheckRequest : IBaseCheckRequest
+    public interface IRelationshipCheckRequest : IBaseRelationshipCheckRequest
     {
         string FromLabel { get; set; }
-        
-        string RelationshipLabel { get; set; }
-
-        int Threshold { get; set; }
-
-        RelationshipThresholdType ThresholdType { get; set; }
     }
 }
