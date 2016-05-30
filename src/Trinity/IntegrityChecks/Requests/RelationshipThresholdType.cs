@@ -4,6 +4,7 @@
     {
         Unspecified = 0,
         ReturnIfGreaterThan = 1,
-        ReturnIfNotExact = 2
+        ReturnIfNotExact = 2,
+        ReturnIfEqual = 3
     }
 }

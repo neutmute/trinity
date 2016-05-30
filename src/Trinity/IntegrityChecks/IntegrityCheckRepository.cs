@@ -78,6 +78,9 @@ namespace Trinity.IntegrityChecks
                 case RelationshipThresholdType.ReturnIfNotExact:
                     q = q.Where($"relationshipCount <> {request.Threshold}");
                     break;
+                case RelationshipThresholdType.ReturnIfEqual:
+                    q = q.Where($"relationshipCount = {request.Threshold}");
+                    break;
 
                 default:
                     throw new Exception("<INSERT PR HERE>");
