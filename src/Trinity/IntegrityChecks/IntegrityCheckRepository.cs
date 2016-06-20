@@ -5,7 +5,7 @@ using Neo4jClient.Extension.Cypher;
 using Trinity;
 using System.Linq;
 using Neo4jClient;
-using Trinity.IntegrityChecks.Requests;
+using Trinity.IntegrityChecks;
 
 namespace Trinity.IntegrityChecks
 {

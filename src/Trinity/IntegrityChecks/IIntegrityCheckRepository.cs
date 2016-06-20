@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Trinity.IntegrityChecks.Requests;
+using Trinity.IntegrityChecks;
 
 namespace Trinity.IntegrityChecks
 {

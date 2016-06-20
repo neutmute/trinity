@@ -1,4 +1,4 @@
-﻿using Trinity.IntegrityChecks.Requests;
+﻿using Trinity.IntegrityChecks;
 
 namespace Trinity.IntegrityChecks
 {
