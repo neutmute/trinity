@@ -7,4 +7,11 @@
         ReturnIfNotExact = 2,
         ReturnIfEqual = 3
     }
+
+    public enum RelationshipDirection
+    {
+        Unspecified = 0
+        ,Outbound
+        ,Inbound
+    }
 }

@@ -8,7 +8,5 @@ namespace Trinity.IntegrityChecks
         RelationshipCheckResponse Check(IRelationshipCheckRequest request);
 
         RawCheckResponse Check(IRawCheckRequest request);
-
-        RelationshipCheckResponse Check(IInboundRelationshipCheckRequest request);
     }
 }

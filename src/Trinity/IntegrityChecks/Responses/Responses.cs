@@ -6,7 +6,7 @@ namespace Trinity.IntegrityChecks
     {
     }
 
-    public class RelationshipCheckResponse : BaseCheckResponse<IBaseRelationshipCheckRequest>
+    public class RelationshipCheckResponse : BaseCheckResponse<IRelationshipCheckRequest>
     {
     }
 }

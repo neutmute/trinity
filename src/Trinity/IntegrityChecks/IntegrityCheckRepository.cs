@@ -44,28 +44,19 @@ namespace Trinity.IntegrityChecks
         /// <summary>
         /// For a given label and relationship, returns anything that doesn't conform to expected count
         /// </summary>
-        public RelationshipCheckResponse Check(IInboundRelationshipCheckRequest request)
-        {
-            var q = CypherQuery
-                .Match($"(e:{request.ToLabel})")
-                .OptionalMatch($"(e)<-[rel:{request.RelationshipLabel}]-()");
-
-            return Check(q, request);
-        }
-
-        /// <summary>
-        /// For a given label and relationship, returns anything that doesn't conform to expected count
-        /// </summary>
         public RelationshipCheckResponse Check(IRelationshipCheckRequest request)
         {
+            var inboundRequirement = request.RelationshipDirection == RelationshipDirection.Inbound ? "<" : "";
+            var outboundRequirement = request.RelationshipDirection == RelationshipDirection.Outbound ? ">" : "";
+            
             var q = CypherQuery
-                .Match($"(e:{request.FromLabel})")
-                .OptionalMatch($"(e)-[rel:{request.RelationshipLabel}]-()");
+                .Match($"(e:{request.NodeLabel})")
+                .OptionalMatch($"(e){inboundRequirement}-[rel:{request.RelationshipLabel}]-{outboundRequirement}()");
 
             return Check(q, request);
         }
 
-        private RelationshipCheckResponse Check(ICypherFluentQuery q, IBaseRelationshipCheckRequest request)
+        private RelationshipCheckResponse Check(ICypherFluentQuery q, IRelationshipCheckRequest request)
         {
             q = q.With("ID(e) as nodeId, count(rel) as relationshipCount");
 
