@@ -8,7 +8,6 @@ namespace Trinity
 {
     public class GraphConnectionFactory
     {
-        protected static ILog CypherLog = LogManager.GetLogger("Cypher");
         private static List<JsonConverter> _registeredJsonConverters = new List<JsonConverter>();
 
         public static void RegisterJsonConverter(JsonConverter converter)
@@ -39,18 +38,34 @@ namespace Trinity
 
         private static void SubscribeEvents(GraphConnection graphConnection)
         {
+            Action<LogLevel, string> log = (l, m) =>
+            {
+                var cypherLog = LogManager.GetLogger("Cypher");
+                switch (l)
+                {
+                    case LogLevel.Error:
+                        cypherLog.Error(m);
+                        break;
+                    case LogLevel.Info:
+                        cypherLog.Info(m);
+                        break;
+                    default:
+                        throw new Exception("Why doens't ILog have a generic Log method accepting log level?");
+                }
+            };
+
             graphConnection.GraphClient.OperationCompleted += (sender, e) =>
             {
                 if (e.HasException)
                 {
-                    CypherLog.Error($"Neo4j is about to throw exception '{e.Exception.Message}'. QueryText:\r\n{e.QueryText}");
+                    log(LogLevel.Error, $"Neo4j is about to throw exception '{e.Exception.Message}'. QueryText:\r\n{e.QueryText}");
                 }
                 
                 ExecutionLog.Instance.AddIfEnabled(Execution.FromOperationCompleted(e));
 
                 if (NeoConfig.Instance.IsCypherLoggingEnabled)
                 {
-                    CypherLog.Info(e.QueryText);
+                    log(LogLevel.Info, e.QueryText);
                 }
             };
         }
