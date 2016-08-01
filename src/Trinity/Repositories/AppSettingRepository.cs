@@ -78,7 +78,12 @@ namespace Trinity
                .Set("s.value = s.value + 1")
                .Return(s => s.As <AppSettingLong>());
 
-            var appSettingResult = qResult.Results.ToList()[0];
+            var resultList = qResult.Results.ToList();
+            if (resultList.Count != 1)
+            {
+                throw new Exception($"Expected to find exactly one appSetting entry for '{key}' but found {resultList.Count} entries");
+            }
+            var appSettingResult = resultList[0];
             return appSettingResult.Value;
         }
 
